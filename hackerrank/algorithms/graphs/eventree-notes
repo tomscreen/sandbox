@@ -1,0 +1,451 @@
+How many of these relationships can be removed such that no nodes
+are removed and the relationships that are left create trees with
+even numbers of nodes? (first line is meta)
+
+10 9
+2 1
+3 1
+4 3
+5 2
+6 1
+7 2
+8 6
+9 8
+10 8
+
+2->1->3->4
+2->1->6->8->9
+      6->8->10
+2->5
+2->7
+(1 tree, 10 vertices: 1,2,3,4,5,6,7,8,9,10)
+
+run 1 - eliminate singles
+1 - 2,3,6
+2 - 1,5,7
+3 - 1,4
+4 - 3			x
+5 - 2			x
+6 - 1,8
+7 - 2			x
+8 - 6,9,10
+9 - 8			x
+10 - 8			x
+
+run 1 - outcome
+1 - 2,3,6
+2 - 1
+3 - 1
+6 - 1,8
+8 - 6
+
+run 2 - eliminate singles
+1 - 2,3,6
+2 - 10			x
+3 - 10			x
+6 - 1,8
+8 - 6			x
+
+run 2 - outcome
+1 - 2,6
+6 - 1
+
+elimination candidates
+1-2
+1-6
+2-6
+
+
+original list update
+3 1
+4 3
+5 2
+7 2
+8 6
+9 8
+10 8
+
+1->3->4
+5->2->7
+6->8->9
+6->8->10
+
+
+
+
+
+-- second attempt --
+count group members
+
+2 1
+3 1
+4 3
+5 2
+6 1
+7 2
+8 6
+9 8
+10 8
+
+values that are only in left column once and not in right column
+
+4, 5, 7, 9, 10
+(this is leaf list)
+
+for each leaf find related nodes
+4->3
+5->2
+7->2
+9->8
+10->8
+
+3, 2, 8
+for each node find related nodes (not including above list)
+3->1
+2->1
+8->6
+
+1, 6
+for each node find related nodes (not including above list)
+6->1
+
+relationships grouped by level moving 'up' the tree
+
+group each level based on shared numbers?
+level 1...
+4->3
+5->2, 7->2
+9->8, 10->8
+
+level 2...
+3->1, 2->1
+8->6
+
+
+
+-- different approach
+
+2 1
+3 1
+4 3
+5 2
+6 1
+7 2
+8 6
+9 8
+10 8
+
+
+for each element, reduce-style
+
+[2 1]
+
+[2 1] [3 1] (have '1' in common) - 3 nodes
+[2 1] [3 1] [4 3] have '3' in common - 4 nodes
+
+[5 2]
+
+[5 2] [7 2] (have '2' in common) - 3 nodes
+(problem here - no more available with commonalities, therefore combination doesn't work)
+
+[2 1] -> [3 1]
+[2 1] -> [5 2]
+[2 1] -> [6 1]
+[2 1] -> [7 2]
+
+- don't see how this helps... moving on.
+
+
+-- another approach
+
+2 1
+3 1
+4 3
+5 2
+6 1
+7 2
+8 6
+9 8
+10 8
+
+leaf nodes = 5, 7, 4, 9, 10
+
+for each leaf node relationship
+
+[5 2] -> [2 1]
+[5 2] -> [7 2]
+
+[7 2] -> [2 1]
+[7 2] -> [5 2]
+
+[4 3] -> [3 1]
+
+[9 8] -> [8 6]
+[9 8] -> [8 10]
+
+[10 8] -> [8 6]
+[10 8] -> [9 8]
+
+
+-- another approach
+
+2 1
+3 1
+4 3
+5 2
+6 1
+7 2
+8 6
+9 8
+10 8
+
+try refactoring input to resemble a tree
+could work for a tree with no loops but what about a tree with loops?
+let's see how this one would look
+
+[ [5[2 [1]]], [4 [3 [1]]], [6 [1]] ]
+
+stuck now trying to reconcile how to incorporate [7 2]... moving on
+
+
+-- another approach
+
+2 1
+3 1
+4 3
+5 2
+6 1
+7 2
+8 6
+9 8
+10 8
+
+leaf nodes
+
+4, 5, 7, 9, 10
+
+relationships from leaf nodes (in any direction)
+
+4->3
+5->2
+7->2
+9->8
+10->8
+
+group based on common related nodes
+
+4->3
+
+5->2
+7->2
+
+9->8
+10->8
+
+any even number of nodes in groups can be frozeon
+4->3
+
+for each of the odd numbered nodes, get parents
+
+2->1
+8->6
+
+add each one to respective groups
+
+5->2
+7->2
+2->1
+( = 4 nodes, even)
+
+9->8
+10->8
+8->6
+( = 4 nodes, even)
+
+have 3 even-noded groups - is that all nodes accounted for?
+4, 3, 5, 2, 7, 1, 9, 8, 10, 6
+
+
+MIGHT BE ON TO SOMETHING!! and it is recursive for each set of nodes gradually adding to a group
+
+so... given any list of related vertices
+find leaf nodes (if current list of groups is empty)
+create a group for each leaf?
+for each node
+find next related nodes and recombine groups
+for each related node, find next related node
+
+
+
+
+-- another approach
+
+2 1
+3 1
+4 3
+5 2
+6 1
+7 2
+8 6
+9 8
+10 8
+
+
+for each relation
+
+2->1
+
+compare to each other relation in turn and gradually reduce?
+2->1 AND 3->1 (1)
+2->1 AND 4->3 (0)
+2->1 AND 5->2 (1)
+2->1 AND 6->1 (1)
+2->1 AND 7->2 (1)
+2->1 AND 8->6 (0)
+2->1 AND 9->8 (0)
+2->1 AND 10->8 (0)
+
+output 1
+2->1
+3->1
+5->2
+6->1
+7->2
+
+remaining list 1
+4->3
+8->6
+9->8
+10->8
+
+even number in remaining list 1? 
+YES, but not connected compare first element with each...
+4->3 AND 8->6 (0)
+4->3 AND 9->8 (0)
+4->3 AND 10->8 (0)
+
+output 2
+4->3
+
+remaining list 2
+8->6
+9->8
+10->8
+
+even number in remaining list 2?
+YES - leave alone
+
+even number in output 2?
+YES - leave alone
+
+
+
+
+-- another approach
+
+2 1
+3 1
+4 3
+5 2
+6 1
+7 2
+8 6
+9 8
+10 8
+
+sort list by smallest
+
+1 2
+1 3
+1 6
+2 5
+2 7
+3 4
+6 8
+8 9
+8 10
+
+
+
+
+-- treat relation as a Vector
+a vector represents a relationship between two Vertices/Nodes
+
+need a function that compares two Vectors and reports a match between any of the nodes
+
+need a function that can group a list of Vectors based on matching nodes (i.e. connections)
+
+need a function to count unique nodes in a list of Vectors
+
+then it is a case of trying different combinations of Vectors from a list to see how
+many can be removed whilst retaining all unique nodes
+ - which vectors can be removed without removing a node?
+
+how to represent a vector?
+{x:'2', y:'1'}
+[2,1]
+
+
+
+
+
+
+
+
+-- grouping test 1 (2 trees)
+
+8 7
+2 1
+3 1
+4 3
+6 1
+7 2
+9 8
+10 8
+
+-- grouping test 2 (3 trees)
+
+8 7
+2 1
+3 5
+4 3
+6 1
+7 2
+9 8
+10 8
+
+
+
+-- testing combinations for removal
+
+2 1
+3 1
+4 3
+5 2
+6 1
+7 2
+8 6
+9 8
+10 8
+
+individually, which ones can be removed
+
+2,1 - yes
+3,1 - yes
+4,3 - no
+5,2 - no
+6,1 - yes
+7,2 - no
+8,6 - yes
+9,8 - no
+10,8 - no
+
+so start with a list of all 'no'
+
+4,3
+5,2
+7,2
+9,8
+10,8
+
+how many trees does that leave?
