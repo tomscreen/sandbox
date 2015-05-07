@@ -51,16 +51,17 @@ div#layoutLeft {
 	display: flex;
 	flex-direction: column;
 	flex: 1 100%;
-	background-color: rgba(30,30,30,0.4);
+	background-color: rgba(30,30,30,0.7);
 	/*border: 1px solid black;*/
+	position: relative;
 }
 div#layoutRight {
 	display: flex;
 	flex-direction: column;
 	flex: 1 100%;
-	background-color: rgba(30,30,30,0.4);
+	background-color: rgba(30,30,30,0.7);
 	/*border: 1px solid black;*/
-	min-width: 15%;
+	min-width: 145px;
 	max-width: 15%;
 	width: 15%;
 }
@@ -81,6 +82,7 @@ canvas#canv {
 	top: 0;
 	left: 0;
 	z-index:10;
+	/*border: 1px solid white;*/
 }
 
 div#seating {
@@ -91,17 +93,27 @@ div#seating {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	z-index:3;
+	/*z-index:3;*/
 	margin: 0;
 	padding: 10px;
 	/*border: 1px solid red;*/
 }
 div.seat {
-	border: 1px solid #DDD;
+	border: 1px solid #AAA;
 	border-radius: 5px;
 	margin: 2px;
 	padding: 0;
 	flex: 1 100%;
+	background-color: none;
+	transition-property: border, background-color;
+	transition-duration: 20s;
+	/*transition-timing-function: cubic-bezier(0, 1, 0.5, 1);*/
+	transition-timing-function: cubic-bezier(0.07, 0.6, 0.82, 0.06);
+}
+div.seat.hl {
+	border: 1px solid #F00;
+	background-color: rgba(255,0,0,0.8);
+	transition-duration: 0.5s;
 }
 div.row {
 	margin: 0;
@@ -109,6 +121,20 @@ div.row {
 	flex: 1 100%;
 	display: flex;
 	flex-direction: row;
+}
+div#thing {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 1px solid white;
+	width: 10px;
+	height: 10px;
+	max-width: 10px;
+	max-height: 10px;
+	min-width: 10px;
+	min-height: 10px;
+	z-index: 50;
+	border-radius: 5px;
 }
 
 
@@ -133,7 +159,17 @@ div#eventstream {
 
 canvas#escanv {
 	flex: 1 100%;
-	border: 1px solid white;
+	/*border: 1px solid white;*/
+}
+
+textarea#textstream {
+	flex: 1 100%;
+	/*border: 1px solid white;*/
+	border: none;
+	outline: none;
+	background: none;
+	color: #66FF00;
+	padding-left: 10px;
 }
 
 /*
