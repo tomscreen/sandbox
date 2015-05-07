@@ -7,7 +7,7 @@ $(document).ready(function() {
 	pageWidth = document.body.clientWidth
 	pageHeight = document.body.clientHeight
 
-	tracker()
+	// tracker()
 	seating(10,16)
 
 })
@@ -55,12 +55,23 @@ function drawIt(canvas,ctx,x,y) {
 }
 
 function seating(rows,wide) {
-	for (var x=0; x<(rows*wide); x++) {
-		$('#seating').append("<div id='seat"+x+"' class='seat'></div>")
-	}
-	var seatWidth = ( Math.round(pageWidth / wide) - 6 )
-	var seatHeight = ( Math.round(pageHeight / rows) - 6 )
-	console.log(seatWidth,seatHeight)
 
-	$(".seat").css({"max-height":seatHeight+'px', "max-width":seatWidth+'px', "height":seatHeight+'px', "width":seatWidth+'px', "min-width":seatWidth+'px', "max-height":seatHeight+'px'})
+	for (var x=0; x<rows; x++) {
+		$('#seating').append("<div id='row"+x+"' class='row'></div>")
+
+		for (var y=0; y<wide; y++) {
+			$('#row'+x).append("<div id='seat"+(x*y)+"' class='seat'></div>")
+		}
+	}
+
+	// var rowHeight = ( Math.round(pageHeight / rows) )
+
+	// for (var x=0; x<(rows*wide); x++) {
+	// 	$('#seating').append("<div id='seat"+x+"' class='seat'></div>")
+	// }
+	// var seatWidth = ( Math.round(pageWidth / wide) - 6 )
+	// var seatHeight = ( Math.round(pageHeight / rows) - 6 )
+	// console.log(seatWidth,seatHeight)
+
+	// $(".seat").css({"max-height":seatHeight+'px', "max-width":seatWidth+'px', "height":seatHeight+'px', "width":seatWidth+'px', "min-width":seatWidth+'px', "max-height":seatHeight+'px'})
 }

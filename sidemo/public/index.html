@@ -1,57 +1,24 @@
 <html>
 
 	<head>
-		<title>SI Demo</title>
+		<title>SI</title>
 		<script src="jquery.min.js"></script>
 		<script src="web.js"></script>
-		<style>
-			* {
-				box-sizing: border-box;
-			}
-			body {
-				margin:0;
-				padding:0;
-				overflow:hidden;
-				background: url(bg2.jpg) no-repeat center center fixed;
-				background-size: cover;
-			}
-			canvas {
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index:2;
-			}
-			div#seating {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				display: flex;
-				flex-direction: row;
-				flex-wrap: wrap;
-				align-content: flex-start;
-				z-index:1;
-			}
-			div.seat {
-				/*width: 50px;
-				height: 50px;
-				min-width: 50px;
-				min-height: 50px;
-				max-width: 50px;
-				max-height: 50px;*/
-				border: 1px solid #FFF;
-				border-radius: 5px;
-				margin: 2px;
-				padding: 0;
-				flex: 1 100%;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="si.css"/>
 	</head>
 
 	<body>
-		<canvas id="canv"></canvas>
-		<div id="seating"></div>
+		<div id="banner"></div>
+		<div id="layoutTop">
+			<div id="auditorium">
+				<canvas id="canv"></canvas>
+				<div id="seating"></div>
+			</div>
+			<div id="eventstream"></div>
+		</div>
+		<div id="layoutBottom">
+			<!-- <div id="dyncharting"></div> -->
+		</div>
 	</body>
 
 </html>
