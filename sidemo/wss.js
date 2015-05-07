@@ -15,7 +15,7 @@ wss.on('connection', function connection(ws) {
 var coords = {x:200,y:200}
 
 function genCoords(ws) {
-	// console.log(coords)
+	console.log(coords)
 	ws.send(JSON.stringify(coords))
 
 	if (tendto.x > coords.x)

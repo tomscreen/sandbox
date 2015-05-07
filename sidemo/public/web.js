@@ -1,23 +1,31 @@
 var tendto = {x:300,y:300}
 var pageWidth
 var pageHeight
+var datalog = []
 
 $(document).ready(function() {
 
 	pageWidth = document.body.clientWidth
 	pageHeight = document.body.clientHeight
 
-	// tracker()
+	tracker()
 	seating(10,16)
 
 })
 
 function tracker() {
-	var canvas = document.getElementById('canv')
-	canvas.width = pageWidth
-    canvas.height = pageHeight
+	// var canvas = document.getElementById('canv')
+	// canvas.width = pageWidth
+ //    canvas.height = pageHeight
 
-	var ctx = canvas.getContext('2d')
+    var streamCanvas = document.getElementById('escanv')
+    // console.log('es width',$('#eventstream').innerWidth())
+    // console.log('es height',$('#eventstream').innerHeight())
+    streamCanvas.width = $('#eventstream').width()
+    streamCanvas.height = $('#eventstream').height()
+    var streamCtx = streamCanvas.getContext('2d')
+
+	// var ctx = canvas.getContext('2d')
 
 	console.log('ready')
 	var socket = new WebSocket("ws://localhost:8080")
@@ -29,14 +37,15 @@ function tracker() {
 	socket.onmessage = function(event) {
 		var d = JSON.parse(event.data)
 		// console.log(d.x)
-		drawIt(canvas, ctx, d.x, d.y)
+		// drawIt(canvas, ctx, d.x, d.y)
+		logIt(streamCanvas, streamCtx, d)
 	}
 
-	canvas.addEventListener('mousedown', function(event) {
-		tendto.x = event.pageX
-		tendto.y = event.pageY
-		socket.send(JSON.stringify(tendto))
-	}, false)
+	// canvas.addEventListener('mousedown', function(event) {
+	// 	tendto.x = event.pageX
+	// 	tendto.y = event.pageY
+	// 	socket.send(JSON.stringify(tendto))
+	// }, false)
 }
 
 function drawIt(canvas,ctx,x,y) {
@@ -52,6 +61,24 @@ function drawIt(canvas,ctx,x,y) {
 	ctx.arc(tendto.x,tendto.y,2,0,2*Math.PI)
 	ctx.fill()
 	ctx.closePath()
+}
+// var logged = false
+function logIt(canvas, ctx, d) {
+	
+	if (datalog.length > 60) {
+		// if (logged === false) console.log(datalog)
+		// logged = true
+		datalog.splice(0,1)
+	}
+	datalog.push(d)
+
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.font = "12px Georgia"
+	ctx.fillStyle = '#66FF00'
+	for (var i in datalog) {
+		// console.log(i)
+		ctx.fillText(JSON.stringify(datalog[i]),10,((i*12)+1))
+	}
 }
 
 function seating(rows,wide) {

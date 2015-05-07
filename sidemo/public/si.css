@@ -6,31 +6,63 @@ body {
 	padding:0;
 	overflow:hidden;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	background: url(bg1.jpg) no-repeat center center fixed;
+	background-size: cover;
+}
+div#overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	background-image: url(overlay.png);
+	opacity: 0.35;
 }
 div#banner {
 	display: flex;
 	flex-direction: row;
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	flex: 1 100%;
 	min-height: 50px;
 	max-height: 50px;
 	height: 50px;
+	background-color: rgba(30,30,30,0.4);
 }
 div#layoutTop {
 	display: flex;
 	flex-direction: row;
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	flex: 1 100%;
+	background-color: rgba(30,30,30,0.4);
 }
 div#layoutBottom {
 	display: flex;
 	flex-direction: column;
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	flex: 1 100%;
 	min-height: 20%;
 	max-height: 20%;
 	height: 20%;
+	background-color: rgba(30,30,30,0.4);
+}
+div#layoutLeft {
+	display: flex;
+	flex-direction: column;
+	flex: 1 100%;
+	background-color: rgba(30,30,30,0.4);
+	/*border: 1px solid black;*/
+}
+div#layoutRight {
+	display: flex;
+	flex-direction: column;
+	flex: 1 100%;
+	background-color: rgba(30,30,30,0.4);
+	/*border: 1px solid black;*/
+	min-width: 15%;
+	max-width: 15%;
+	width: 15%;
 }
 
 /*
@@ -41,16 +73,14 @@ div#auditorium {
 	position: relative;
 	display: flex;
 	flex: 1 100%;
-	border: 1px solid black;
-	background: url(bg1.jpg) no-repeat center center fixed;
-	background-size: cover;
+	/*border: 1px solid black;*/
 }
 
-canvas {
+canvas#canv {
 	position: absolute;
 	top: 0;
 	left: 0;
-	z-index:2;
+	z-index:10;
 }
 
 div#seating {
@@ -61,14 +91,13 @@ div#seating {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	z-index:1;
+	z-index:3;
 	margin: 0;
-	padding: 2px;
-	border: 1px solid red;
-	background-color: rgba(200,200,200,0.8);
+	padding: 10px;
+	/*border: 1px solid red;*/
 }
 div.seat {
-	border: 1px solid #FFF;
+	border: 1px solid #DDD;
 	border-radius: 5px;
 	margin: 2px;
 	padding: 0;
@@ -89,11 +118,22 @@ div.row {
 
 div#eventstream {
 	flex: 1 100%;
-	max-width: 15%;
-	min-width: 15%;
-	width: 15%;
-	border: 1px solid black;
-	background-color: rgba(50,50,50,0.9);
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	/*border: 1px solid black;*/
+	border-left: 1px solid #555;
+	/*background-color: rgba(30,30,30,0.8);*/
+	background-image: url(overlay.png);
+	opacity: 0.6;
+}
+
+canvas#escanv {
+	flex: 1 100%;
+	border: 1px solid white;
 }
 
 /*
@@ -101,6 +141,9 @@ div#eventstream {
  */
 
 div#dyncharting {
-	flex: 1 100%
-	border: 1px solid black;
+	flex: 1 100%;
+	min-height: 20%;
+	max-height: 20%;
+	height: 20%;
+	/*border: 1px solid black;*/
 }
