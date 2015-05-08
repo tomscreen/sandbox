@@ -29,7 +29,7 @@ function genCoords(ws) {
 
 	setTimeout(function() {
 		genCoords(ws)
-	},25)
+	},10)
 }
 
 function getRandomInt(min, max) {

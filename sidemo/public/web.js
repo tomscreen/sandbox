@@ -4,8 +4,8 @@ var pageHeight
 var datalog = []
 var seatWidth
 var seatHeight
-var rows = 13
-var wide = 21
+var rows = 25
+var wide = 50
 var xData = []
 
 $(document).ready(function() {
@@ -326,7 +326,7 @@ function tracker() {
 // }
 var count = 0
 function graphIt(chart, d) {
-	if (xData.length > 500) {
+	if (xData.length > 1000) {
 		// xData.splice(0,1)
 		xData.shift()
 	}
