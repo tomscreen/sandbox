@@ -4,9 +4,19 @@ var pageHeight
 var datalog = []
 var seatWidth
 var seatHeight
-var rows = 25
-var wide = 50
+var rows = 10
+var wide = 16
 var xData = []
+var yData = []
+var maxTemp = -1000
+var minTemp = 9999
+var sumTemp = 0
+var aveTemp
+var maxNoise = -1000
+var minNoise = 9999
+var aveNoise
+var sumNoise = 0
+var dataCount = 0
 
 $(document).ready(function() {
 
@@ -65,7 +75,7 @@ function tracker() {
 	// var graph = graphInit()
 
 	// initialise chart
-	CanvasJS.addColorSet('green',['#66FF00'])
+	CanvasJS.addColorSet('green',['#66FF00','#F3F315'])
 	var chart = new CanvasJS.Chart("dyncharting",{
 		backgroundColor: null,
 		colorSet: 'green',
@@ -81,11 +91,16 @@ function tracker() {
 			gridColor: '#AAA',
 			lineColor: '#AAA'
 		},
-		data: [{
-			type: "line",
-			dataPoints: xData 
-
-		}]
+		data: [
+			{
+				type: "line",
+				dataPoints: xData 
+			},
+			{
+				type: "line",
+				dataPoints: yData
+			}
+		]
 	});
 
 	console.log('ready')
@@ -139,186 +154,6 @@ function tracker() {
 // 		]
 // 	}
 
-// 	Chart.defaults.global = {
-// 	    // Boolean - Whether to animate the chart
-// 	    animation: true,
-
-// 	    // Number - Number of animation steps
-// 	    animationSteps: 60,
-
-// 	    // String - Animation easing effect
-// 	    // Possible effects are:
-// 	    // [easeInOutQuart, linear, easeOutBounce, easeInBack, easeInOutQuad,
-// 	    //  easeOutQuart, easeOutQuad, easeInOutBounce, easeOutSine, easeInOutCubic,
-// 	    //  easeInExpo, easeInOutBack, easeInCirc, easeInOutElastic, easeOutBack,
-// 	    //  easeInQuad, easeInOutExpo, easeInQuart, easeOutQuint, easeInOutCirc,
-// 	    //  easeInSine, easeOutExpo, easeOutCirc, easeOutCubic, easeInQuint,
-// 	    //  easeInElastic, easeInOutSine, easeInOutQuint, easeInBounce,
-// 	    //  easeOutElastic, easeInCubic]
-// 	    animationEasing: "easeOutQuart",
-
-// 	    // Boolean - If we should show the scale at all
-// 	    showScale: true,
-
-// 	    // Boolean - If we want to override with a hard coded scale
-// 	    scaleOverride: false,
-
-// 	    // ** Required if scaleOverride is true **
-// 	    // Number - The number of steps in a hard coded scale
-// 	    scaleSteps: null,
-// 	    // Number - The value jump in the hard coded scale
-// 	    scaleStepWidth: null,
-// 	    // Number - The scale starting value
-// 	    scaleStartValue: null,
-
-// 	    // String - Colour of the scale line
-// 	    scaleLineColor: "rgba(0,0,0,.1)",
-
-// 	    // Number - Pixel width of the scale line
-// 	    scaleLineWidth: 1,
-
-// 	    // Boolean - Whether to show labels on the scale
-// 	    scaleShowLabels: true,
-
-// 	    // Interpolated JS string - can access value
-// 	    scaleLabel: "<%=value%>",
-
-// 	    // Boolean - Whether the scale should stick to integers, not floats even if drawing space is there
-// 	    scaleIntegersOnly: true,
-
-// 	    // Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-// 	    scaleBeginAtZero: false,
-
-// 	    // String - Scale label font declaration for the scale label
-// 	    scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-
-// 	    // Number - Scale label font size in pixels
-// 	    scaleFontSize: 12,
-
-// 	    // String - Scale label font weight style
-// 	    scaleFontStyle: "normal",
-
-// 	    // String - Scale label font colour
-// 	    scaleFontColor: "#666",
-
-// 	    // Boolean - whether or not the chart should be responsive and resize when the browser does.
-// 	    responsive: false,
-
-// 	    // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-// 	    maintainAspectRatio: true,
-
-// 	    // Boolean - Determines whether to draw tooltips on the canvas or not
-// 	    showTooltips: true,
-
-// 	    // Function - Determines whether to execute the customTooltips function instead of drawing the built in tooltips (See [Advanced - External Tooltips](#advanced-usage-custom-tooltips))
-// 	    customTooltips: false,
-
-// 	    // Array - Array of string names to attach tooltip events
-// 	    tooltipEvents: ["mousemove", "touchstart", "touchmove"],
-
-// 	    // String - Tooltip background colour
-// 	    tooltipFillColor: "rgba(0,0,0,0.8)",
-
-// 	    // String - Tooltip label font declaration for the scale label
-// 	    tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-
-// 	    // Number - Tooltip label font size in pixels
-// 	    tooltipFontSize: 14,
-
-// 	    // String - Tooltip font weight style
-// 	    tooltipFontStyle: "normal",
-
-// 	    // String - Tooltip label font colour
-// 	    tooltipFontColor: "#fff",
-
-// 	    // String - Tooltip title font declaration for the scale label
-// 	    tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-
-// 	    // Number - Tooltip title font size in pixels
-// 	    tooltipTitleFontSize: 14,
-
-// 	    // String - Tooltip title font weight style
-// 	    tooltipTitleFontStyle: "bold",
-
-// 	    // String - Tooltip title font colour
-// 	    tooltipTitleFontColor: "#fff",
-
-// 	    // Number - pixel width of padding around tooltip text
-// 	    tooltipYPadding: 6,
-
-// 	    // Number - pixel width of padding around tooltip text
-// 	    tooltipXPadding: 6,
-
-// 	    // Number - Size of the caret on the tooltip
-// 	    tooltipCaretSize: 8,
-
-// 	    // Number - Pixel radius of the tooltip border
-// 	    tooltipCornerRadius: 6,
-
-// 	    // Number - Pixel offset from point x to tooltip edge
-// 	    tooltipXOffset: 10,
-
-// 	    // String - Template string for single tooltips
-// 	    tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
-
-// 	    // String - Template string for multiple tooltips
-// 	    multiTooltipTemplate: "<%= value %>",
-
-// 	    // Function - Will fire on animation progression.
-// 	    onAnimationProgress: function(){},
-
-// 	    // Function - Will fire on animation completion.
-// 	    onAnimationComplete: function(){}
-// 	}
-
-// 	var opts = {
-// 	    ///Boolean - Whether grid lines are shown across the chart
-// 	    scaleShowGridLines : true,
-
-// 	    //String - Colour of the grid lines
-// 	    scaleGridLineColor : "rgba(0,0,0,.05)",
-
-// 	    //Number - Width of the grid lines
-// 	    scaleGridLineWidth : 1,
-
-// 	    //Boolean - Whether to show horizontal lines (except X axis)
-// 	    scaleShowHorizontalLines: true,
-
-// 	    //Boolean - Whether to show vertical lines (except Y axis)
-// 	    scaleShowVerticalLines: true,
-
-// 	    //Boolean - Whether the line is curved between points
-// 	    bezierCurve : true,
-
-// 	    //Number - Tension of the bezier curve between points
-// 	    bezierCurveTension : 0.4,
-
-// 	    //Boolean - Whether to show a dot for each point
-// 	    pointDot : true,
-
-// 	    //Number - Radius of each point dot in pixels
-// 	    pointDotRadius : 1,
-
-// 	    //Number - Pixel width of point dot stroke
-// 	    pointDotStrokeWidth : 1,
-
-// 	    //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-// 	    pointHitDetectionRadius : 20,
-
-// 	    //Boolean - Whether to show a stroke for datasets
-// 	    datasetStroke : true,
-
-// 	    //Number - Pixel width of dataset stroke
-// 	    datasetStrokeWidth : 1,
-
-// 	    //Boolean - Whether to fill the dataset with a colour
-// 	    datasetFill : false,
-
-// 	    //String - A legend template
-// 	    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
-
-// 	}
-
 // 	var chartCtx = document.getElementById("dynchart").getContext('2d')
 // 	var graph = new Chart(chartCtx).Line(data,opts)
 // 	console.log(graph)
@@ -326,11 +161,13 @@ function tracker() {
 // }
 var count = 0
 function graphIt(chart, d) {
-	if (xData.length > 1000) {
+	if (xData.length > 500) {
 		// xData.splice(0,1)
 		xData.shift()
+		yData.shift()
 	}
-	xData.push({x:count,y:d.x})
+	xData.push({x:count,y:d.t})
+	yData.push({x:count,y:d.s})
 	// console.log(xData)
 
 	// graph.datasets[0].points = xData
@@ -358,6 +195,7 @@ function drawIt(canvas,ctx,x,y) {
 }
 // var logged = false
 function logIt(canvas, ctx, d) {
+	dataCount++
 	
 	if (datalog.length > 100) {
 		// if (logged === false) console.log(datalog)
@@ -377,6 +215,25 @@ function logIt(canvas, ctx, d) {
 		alltext += '['+datalog[i].x+','+datalog[i].y+','+datalog[i].t+','+datalog[i].s+']\n'
 	}
 	$('#textstream').val(alltext)
+
+	sumTemp += d.t
+	aveTemp = parseFloat(sumTemp / dataCount).toFixed(2)
+	if (d.t > maxTemp) maxTemp = d.t
+	if (d.t < minTemp) minTemp = d.t
+
+	sumNoise += d.s
+	aveNoise = parseFloat(sumNoise / dataCount).toFixed(2)
+	if (d.s > maxNoise) maxNoise = d.s
+	if (d.s < minNoise) minNoise = d.s	
+
+	$('#eventCountStat').text(dataCount)
+	$('#maxTempStat').text(maxTemp)
+	$('#minTempStat').text(minTemp)
+	$('#aveTempStat').text(aveTemp)
+	$('#maxNoiseStat').text(maxNoise)
+	$('#minNoiseStat').text(minNoise)
+	$('#aveNoiseStat').text(aveNoise)
+	// console.log(dataCount)
 }
 
 function highlightSeat(x,y) {
